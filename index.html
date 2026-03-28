@@ -609,7 +609,7 @@
 
   <div class="name-badge">
     <span class="name-label">Celebrating</span>
-    <div class="name-text">Lola</div>
+            <div class="name-text" onclick="openPhotos()" style="cursor:pointer;">Lola ✨</div>
   </div>
 
   <div class="details">
@@ -647,7 +647,27 @@
       <div style="font-size:18px; align-self:center; opacity:0.5;">›</div>
     </div>
 
-    <!-- Maps chooser modal -->
+    <!-- Photo gallery modal -->
+    <div id="photoModal" style="display:none; position:fixed; inset:0; z-index:2000; align-items:center; justify-content:center; padding:20px;">
+      <div onclick="closePhotos()" style="position:absolute; inset:0; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px);"></div>
+      <div style="position:relative; background:linear-gradient(160deg,#fff9f0,#fff0f9); border-radius:28px; padding:24px 20px 20px; width:100%; max-width:420px; box-shadow:0 0 0 4px #ff69b4, 0 20px 60px rgba(255,20,147,0.4); animation: popIn 0.3s ease both;">
+        <div style="font-family:'Pacifico',cursive; font-size:18px; color:#ff1493; text-align:center; margin-bottom:16px;">Our Birthday Girl 🌺</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <img src="https://raw.githubusercontent.com/gbrandao3-cyber/Lola-s-Bday/main/IMG_0958.jpeg" style="width:100%; border-radius:16px; object-fit:cover; aspect-ratio:1; box-shadow:0 4px 16px rgba(255,20,147,0.2); cursor:pointer;" onclick="openFullPhoto(this.src)"/>
+          <img src="https://raw.githubusercontent.com/gbrandao3-cyber/Lola-s-Bday/main/IMG_1095.jpeg" style="width:100%; border-radius:16px; object-fit:cover; aspect-ratio:1; box-shadow:0 4px 16px rgba(255,20,147,0.2); cursor:pointer;" onclick="openFullPhoto(this.src)"/>
+          <img src="https://raw.githubusercontent.com/gbrandao3-cyber/Lola-s-Bday/main/IMG_1175.jpeg" style="width:100%; border-radius:16px; object-fit:cover; aspect-ratio:1; box-shadow:0 4px 16px rgba(255,20,147,0.2); cursor:pointer;" onclick="openFullPhoto(this.src)"/>
+          <img src="https://raw.githubusercontent.com/gbrandao3-cyber/Lola-s-Bday/main/IMG_1179.jpeg" style="width:100%; border-radius:16px; object-fit:cover; aspect-ratio:1; box-shadow:0 4px 16px rgba(255,20,147,0.2); cursor:pointer;" onclick="openFullPhoto(this.src)"/>
+        </div>
+        <button onclick="closePhotos()" style="position:absolute; top:14px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:#cc6699; font-weight:900;">✕</button>
+      </div>
+    </div>
+
+    <!-- Full photo viewer -->
+    <div id="fullPhotoModal" style="display:none; position:fixed; inset:0; z-index:3000; align-items:center; justify-content:center; padding:20px;">
+      <div onclick="closeFullPhoto()" style="position:absolute; inset:0; background:rgba(0,0,0,0.9);"></div>
+      <img id="fullPhotoImg" src="" style="position:relative; max-width:100%; max-height:90vh; border-radius:16px; box-shadow:0 0 0 3px #ff69b4;"/>
+      <button onclick="closeFullPhoto()" style="position:absolute; top:20px; right:20px; background:rgba(255,255,255,0.2); border:none; font-size:24px; cursor:pointer; color:#fff; font-weight:900; border-radius:50%; width:44px; height:44px;">✕</button>
+    </div>
     <div id="mapsModal" style="display:none; position:fixed; inset:0; z-index:2000; align-items:flex-end; justify-content:center; padding:20px;">
       <div onclick="closeMaps()" style="position:absolute; inset:0; background:rgba(0,0,0,0.4); backdrop-filter:blur(4px);"></div>
       <div style="position:relative; background:#fff9f0; border-radius:24px; padding:24px; width:100%; max-width:400px; box-shadow:0 0 0 3px #ff69b4, 0 20px 60px rgba(0,0,0,0.3); animation: popIn 0.3s ease both; margin-bottom:10px;">
@@ -659,10 +679,9 @@
           <button onclick="openApple()" style="display:flex; align-items:center; gap:14px; background:#fff; border:2px solid #ff69b4; border-radius:14px; padding:14px 16px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#5a003a; transition:transform 0.1s;" onmouseenter="this.style.transform='scale(1.02)'" onmouseleave="this.style.transform='scale(1)'">
             <span style="font-size:24px;">🍎</span> Apple Maps
           </button>
-        </div>
-        <button onclick="closeMaps()" style="position:absolute; top:14px; right:16px; background:none; border:none; font-size:20px; cursor:pointer; color:#cc6699; font-weight:900;">✕</button>
-      </div>
-    </div>
+          <button onclick="openWaymo()" style="display:flex; align-items:center; gap:14px; background:#fff; border:2px solid #ff69b4; border-radius:14px; padding:14px 16px; cursor:pointer; font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; color:#5a003a; transition:transform 0.1s;" onmouseenter="this.style.transform='scale(1.02)'" onmouseleave="this.style.transform='scale(1)'">
+            <span style="font-size:24px;">🚗</span> Order a Waymo
+          </button>
     <div class="detail-row">
       <div class="detail-icon">🌺</div>
       <div>
@@ -795,12 +814,28 @@
   function closeMaps() {
     document.getElementById('mapsModal').style.display = 'none';
   }
-  function openGoogle() {
-    window.open('https://www.google.com/maps/search/?api=1&query=' + ADDRESS, '_blank');
+  function openWaymo() {
+    window.location.href = 'https://waymo.com/intl/en_us/';
+    closeMaps();
+  }
+  function openPhotos() {
+    document.getElementById('photoModal').style.display = 'flex';
+  }
+  function closePhotos() {
+    document.getElementById('photoModal').style.display = 'none';
+  }
+  function openFullPhoto(src) {
+    document.getElementById('fullPhotoImg').src = src;
+    document.getElementById('fullPhotoModal').style.display = 'flex';
+  }
+  function closeFullPhoto() {
+    document.getElementById('fullPhotoModal').style.display = 'none';
+  }
+    window.location.href = 'https://www.google.com/maps/search/?api=1&query=' + ADDRESS;
     closeMaps();
   }
   function openApple() {
-    window.open('https://maps.apple.com/?q=' + ADDRESS, '_blank');
+    window.location.href = 'https://maps.apple.com/?q=' + ADDRESS;
     closeMaps();
   } 'https://script.google.com/macros/s/AKfycbxB-JRsyeq7rPqPKHzT1ZePZ7_MqEj6guMtAaAzNYBGDkrzy5v22zVsTWiTdlWXXVk/exec';
 
