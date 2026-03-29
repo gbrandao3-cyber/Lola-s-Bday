@@ -463,7 +463,7 @@
     container.innerHTML = '<p style="text-align:center; color:#999;">Loading live scores... 🏄‍♀️</p>';
     showModal('leaderboardModal');
 
-    fetch(SCRIPT_URL)
+    fetch(SCRIPT_URL + '?t=' + new Date().getTime())
       .then(r => r.json())
       .then(data => {
         container.innerHTML = '';
